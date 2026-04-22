@@ -1,0 +1,63 @@
+<template>
+  <lightning-card title="Custom CPQ Experience" icon-name="standard:quotes">
+    <div class="container">
+      <div class="panel">
+        <h3>1) Product Selection</h3>
+        <lightning-combobox
+          name="serviceSegment"
+          label="Quote Service Segment"
+          value={serviceSegment}
+          options={segmentOptions}
+          onchange={handleSegmentChange}
+        ></lightning-combobox>
+
+        <p class="help-text">
+          Bundles are filtered by segment and the top recommendation is auto-selected.
+        </p>
+
+        <template for:each={visibleBundles} for:item="bundle">
+          <div key={bundle.value} class={bundle.className}>
+            <span>{bundle.label}</span>
+            <template if:true={bundle.isRecommended}>
+              <span class="badge">Recommended</span>
+            </template>
+          </div>
+        </template>
+      </div>
+
+      <div class="panel">
+        <h3>2) Daily Food Costs</h3>
+        <lightning-input
+          type="number"
+          label="Quote Census"
+          value={quoteCensus}
+          min="1"
+          onchange={handleCensusChange}
+        ></lightning-input>
+
+        <lightning-button
+          class="sync-btn"
+          label="Sync Census to Product Options"
+          variant="brand"
+          onclick={syncCensusToOptions}
+        ></lightning-button>
+
+        <lightning-input
+          type="number"
+          label="Breakfast Option Census"
+          value={breakfastCensus}
+          readonly
+        ></lightning-input>
+
+        <lightning-input
+          type="number"
+          label="Lunch Option Census"
+          value={lunchCensus}
+          readonly
+        ></lightning-input>
+
+        <p class="status-text">{statusMessage}</p>
+      </div>
+    </div>
+  </lightning-card>
+</template>
